@@ -1,0 +1,65 @@
+﻿@model IEnumerable<WebAppFinal.DTOs.Reponse.CourseDTO>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>List Cource</h1>
+
+<p>
+    <a class="btn-outline-primary btn-bm" asp-action="Create">Create New Course</a>
+</p>
+<table id="myTable" class="table table-primary table-striped">
+    <thead>
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.ID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Title)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Credits)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Student)
+        </th>
+
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Credits)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Student)
+            </td>
+            <td>
+                <a class="btn-outline-success btn-bm" asp-controller="Enrollment" asp-action="AddNewStudent" asp-route-id="@item.ID">Add student</a> |
+                <a class="btn-outline-primary btn-bm" asp-action="Edit" asp-route-id="@item.ID">Edit</a> |
+                <a class="btn-outline-primary btn-bm" asp-action="Details" asp-route-id="@item.ID">Details</a> |
+                <a class="btn-outline-danger btn-bm" asp-action="Delete" asp-route-id="@item.ID">Delete</a>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>
+
+@section Scripts{
+<script type="text/javascript">
+
+        $(document).ready(function () {
+            $('#myTable').DataTable();
+        });
+</script>
+}

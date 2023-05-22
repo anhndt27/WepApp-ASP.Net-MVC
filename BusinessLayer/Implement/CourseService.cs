@@ -6,21 +6,21 @@ using WebAppFinal.BusinessLayer.DTOs.StudentQueryDto;
 using WebAppFinal.BusinessLayer.Interface;
 using WebAppFinal.DataLayer.Context;
 using WebAppFinal.DataLayer.Entities;
-using WebAppFinal.DataLayer.Interface;
+
 using WebAppFinal.DTOs.Reponse;
 
 namespace WebAppFinal.BusinessLayer.Implement
 {
     public class CourseService : ICourseServices
     {
-        public readonly ICourseRepo _courseRepo;
+       
         private readonly AppDbContext _context;
         private readonly IMapper _mapper;
         
-        public CourseService(ICourseRepo courseRepo, AppDbContext context, IMapper mapper)
+        public CourseService(  AppDbContext context, IMapper mapper)
         {
             _context = context;
-            _courseRepo = courseRepo;
+          
             _mapper = mapper;
         }
 
@@ -80,6 +80,11 @@ namespace WebAppFinal.BusinessLayer.Implement
         }
 
         public Task<bool> DeleteAsync(CourseRequestDto entity)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<Course> GetFirstAsync(int id)
         {
             throw new NotImplementedException();
         }

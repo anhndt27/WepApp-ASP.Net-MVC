@@ -14,5 +14,6 @@ namespace WebAppFinal.BusinessLayer.Interface
         Task<bool> UpdateAsync(CourseRequestDto entity);
         Task<CourseRequestDto> FindById(int? id);
         Task<bool> DeleteAsync(CourseRequestDto entity);
+        Task<Course> GetFirstAsync(int id);
     }
 }

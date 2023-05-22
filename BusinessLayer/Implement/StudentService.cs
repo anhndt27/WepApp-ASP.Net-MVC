@@ -1,27 +1,30 @@
-﻿using WebAppFinal.BusinessLayer.DTOs.Concrete;
+﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
+using WebAppFinal.BusinessLayer.DTOs.Concrete;
 using WebAppFinal.BusinessLayer.DTOs.Request;
 using WebAppFinal.BusinessLayer.Interface;
 using WebAppFinal.DataLayer.Context;
 using WebAppFinal.DataLayer.Entities;
-using WebAppFinal.DataLayer.Interface;
+
 using WebAppFinal.DTOs.Reponse;
 
 namespace WebAppFinal.BusinessLayer.Implement
 {
     public class StudentService : IStudentService
     {
-        public readonly IStudentRepository _studentRepository;
+        
         private readonly AppDbContext _context;
+        public readonly IMapper _mapper;
 
-        public StudentService(IStudentRepository studentRepository, AppDbContext context)
+        public StudentService( AppDbContext context, IMapper mapper)
         {
-            _studentRepository = studentRepository;
             _context = context;
+            _mapper = mapper;
         }
 
         public async Task<bool> AddAsync(Student entity)
         {
-            var res = await _studentRepository.AddAsync(entity);
+            var res = await _context.AddAsync(entity);
             if (res != null)
             {
                 return true;
@@ -34,20 +37,43 @@ namespace WebAppFinal.BusinessLayer.Implement
             throw new NotImplementedException();
         }
 
-        public async Task<IEnumerable<Student>> GetAllAsync()
+        public async Task<StudentDTO> FindByCode(string code)
         {
-            return await _studentRepository.GetAllAsync();
+            var res =  _context.Students.FirstOrDefaultAsync(s => s.Code == "CT0201");
+            return _mapper.Map<StudentDTO>(res);
         }
 
+        public async Task<IEnumerable<StudentDTO>> Findddd(int id)
+        {
+            var res =  _context.Students.AsNoTracking();
+            return _mapper.Map<IEnumerable<StudentDTO>>(res.Where(s => s.ID == id));
+        }
+
+        public async Task<IEnumerable<Student>> GetAllAsync()
+        {
+           
+            return await _context.Students.ToListAsync();
+            
+        }
+
+        public List<Student> GetListAsync()
+        {
+            return _context.Students.ToList();
+        }
 
         public async Task<IEnumerable<StudentDTO>> GetListSortAsync(SortFilterPageOptions options)
         {
             var listService = new ListStudentService(_context);
-            var listStudent = listService.SortFilterPage(options).ToList();
+            var listStudent = await listService.SortFilterPage(options).ToListAsync();
             return listStudent.ToList();
         }
 
-        public Task<Student> GetByIdAsync(int? id)
+        public Task<IEnumerable<StudentDTO>> GetAllStudent()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<StudentDTO> GetByIdAsync(int? id)
         {
             throw new NotImplementedException();
         }

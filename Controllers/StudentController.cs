@@ -4,7 +4,6 @@ using WebAppFinal.BusinessLayer.DTOs.Reponse;
 using WebAppFinal.BusinessLayer.DTOs.Request;
 using WebAppFinal.BusinessLayer.Interface;
 using WebAppFinal.DataLayer.Entities;
-using WebAppFinal.DataLayer.Interface;
 using WebAppFinal.DTOs.Reponse;
 using WebAppFinal.Helpers;
 
@@ -12,9 +11,9 @@ namespace WebAppFinal.Controllers
 {
     public class StudentController : Controller
     {
-
         public readonly IStudentService _studentService;
         private readonly IMapper _mapper;
+
         public StudentController(IStudentService studentService, IMapper mapper)
         {
             _studentService = studentService;
@@ -43,7 +42,6 @@ namespace WebAppFinal.Controllers
 
         public ActionResult Create()
         {
-
             return View(new Student());
         }
 
@@ -56,7 +54,6 @@ namespace WebAppFinal.Controllers
             {
                 if (ModelState.IsValid)
                 {
-
                     if (await _studentService.AddAsync(entity))
                     {
                         ViewBag.Alert = AlertsHelper.ShowAlert(Alerts.Success, "Create Ok!");
@@ -68,7 +65,6 @@ namespace WebAppFinal.Controllers
             catch
             {
                 return View();
-
             }
 
             return View(entity);
@@ -90,7 +86,6 @@ namespace WebAppFinal.Controllers
             {
                 if (ModelState.IsValid)
                 {
-
                     if (await _studentService.UpdateAsync(entity))
                     {
                         ViewBag.Alert = AlertsHelper.ShowAlert(Alerts.Success, "Update Ok!");
@@ -98,12 +93,13 @@ namespace WebAppFinal.Controllers
                     else ViewBag.Alert = AlertsHelper.ShowAlert(Alerts.Danger, "Unknown error");
                     //return RedirectToAction(nameof(Index));
                 }
-
             }
             catch
             {
-                ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists see your system administrator.");
+                ModelState.AddModelError("",
+                    "Unable to save changes. Try again, and if the problem persists see your system administrator.");
             }
+
             return View(entity);
         }
 
@@ -122,7 +118,7 @@ namespace WebAppFinal.Controllers
             try
             {
                 var res = await _studentService.GetByIdAsync(id);
-                await _studentService.DeleteAsync(res);
+                //await _studentService.DeleteAsync(res);
 
                 return RedirectToAction(nameof(Index));
             }
@@ -130,7 +126,6 @@ namespace WebAppFinal.Controllers
             {
                 return View();
             }
-
         }
 
         public IActionResult Details()

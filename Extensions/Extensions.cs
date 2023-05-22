@@ -1,7 +1,5 @@
 ﻿using WebAppFinal.BusinessLayer.Implement;
 using WebAppFinal.BusinessLayer.Interface;
-using WebAppFinal.DataLayer.Implement;
-using WebAppFinal.DataLayer.Interface;
 
 namespace WebAppFinal.Extentions
 {
@@ -11,15 +9,15 @@ namespace WebAppFinal.Extentions
         {
             //DI Service
             services.AddTransient<IStudentService, StudentService>();
-            //services.AddTransient<IEnrollmentService, EnrollmentService>();
+            services.AddTransient<IEnrollmentService, EnrollmentService>();
             services.AddTransient<ICourseServices, CourseService>();
-
+            
 
             ////DI Repository
-            ///
-            services.AddTransient<IStudentRepository,StudentRepository>();
+         
+            /*services.AddTransient<IStudentRepository,StudentRepository>();
             services.AddTransient<IStudentRepo, StudentRepo>();
-            services.AddTransient<ICourseRepo, CourseRepo>();
+            services.AddTransient<ICourseRepo, CourseRepo>();*/
             return services;
         }
     }

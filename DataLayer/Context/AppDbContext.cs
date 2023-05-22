@@ -3,6 +3,7 @@ using WebAppFinal.DataLayer.Entities;
 using WebAppFinal.DTOs;
 using WebAppFinal.BusinessLayer.DTOs.CourseQueryDto;
 using WebAppFinal.DTOs.Reponse;
+using WebAppFinal.BusinessLayer.DTOs.EnrollmentQueryDto;
 
 namespace WebAppFinal.DataLayer.Context
 {
@@ -32,8 +33,8 @@ namespace WebAppFinal.DataLayer.Context
         }
         public DbSet<Student> Students { get; set; }
         public DbSet<Enrollment> Enrollments { get; set; }
-        public DbSet<Course> Courses { get; set; }        
+        public DbSet<Course> Courses { get; set; }
+        public DbSet<WebAppFinal.BusinessLayer.DTOs.EnrollmentQueryDto.EnrollmentCreateDto>? EnrollmentCreateDto { get; set; }
         public DbSet<WebAppFinal.BusinessLayer.DTOs.CourseQueryDto.CourseRequestDto>? CourseRequestDto { get; set; }
-        public DbSet<WebAppFinal.DTOs.Reponse.CourseDTO>? CourseDTO { get; set; }
     }
 }

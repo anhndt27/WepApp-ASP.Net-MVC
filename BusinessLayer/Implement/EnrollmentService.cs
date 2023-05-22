@@ -1,39 +1,45 @@
-﻿using WebAppFinal.BusinessLayer.Interface;
+﻿using AutoMapper;
+using WebAppFinal.BusinessLayer.DTOs.EnrollmentQueryDto;
+using WebAppFinal.BusinessLayer.Interface;
+using WebAppFinal.DataLayer.Context;
 using WebAppFinal.DataLayer.Entities;
 
 namespace WebAppFinal.BusinessLayer.Implement
 {
-    //public class EnrollmentService : IEnrollmentService
-    //{
-    //    public readonly IEnrollmentService _enrollment;
+    public class EnrollmentService : IEnrollmentService
+    {
+        private readonly AppDbContext _context;
+        public readonly IMapper _mapper;
+        public readonly IStudentService _StudentService;
 
-    //    public EnrollmentService(IEnrollmentService enrollment) 
-    //    {
-    //        _enrollment = enrollment;        
-    //    }
-    //    public async Task<bool> AddAsync(Enrollment entity)
-    //    {
-    //        var res = await _enrollment.AddAsync(entity);
-    //        if(res != null)
-    //        {
-    //            return true;
-    //        }
-    //        return false;
-    //    }
+        public EnrollmentService(AppDbContext context, IMapper mapper,IStudentService studentService)
+        {
+            _context = context;
+            _mapper = mapper;
+            _StudentService = studentService;
+        }
 
-    //    public async Task<bool> DeleteAsync(Enrollment entity)
-    //    {
-    //        var res = _enrollment.DeleteAsync(entity);
-    //        if (res != null)
-    //        {
-    //            return true;
-    //        }
-    //        return false;
-    //    }
+        /*public async Task<bool> AddStudentToCourse(int? CouresID, string? Code)
+        {
+            var res = await _context.Students.FindAsync(CouresID);
+           
+            throw new NotImplementedException();
+        }*/
 
-    //    public async Task<IEnumerable<Enrollment>> GetAllAsync()
-    //    {
-    //        return await _enrollment.GetAllAsync();
-    //    }
-    //}
+        public async Task<bool> AddStudentToCourse(int? CouresID, int? StudentID)
+        {
+            var entity = new Enrollment
+            {
+                StudentID = (int)StudentID,
+                CourseID = (int)CouresID
+            };
+            var res = await _context.Enrollments.AddAsync(entity);
+            await _context.SaveChangesAsync();
+            if (res != null)
+            {
+                return true;
+            }
+            return false;
+        }
+    }
 }

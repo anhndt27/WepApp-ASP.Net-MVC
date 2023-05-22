@@ -5,7 +5,8 @@ namespace WebAppFinal.BusinessLayer.Interface
 {
     public interface IEnrollmentService
     {
-        Task<bool> AddStudentToCourse(EnrollmentDTO entity);
+        Task<bool> AddStudentToCourse(int? CouresID, int? StudentID);
+        
         //Task<IEnumerable<Enrollment>> GetAllAsync();
         //Task<bool> AddAsync(Enrollment entity);
         //Task<bool> DeleteAsync(Enrollment entity);

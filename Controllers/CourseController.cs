@@ -49,7 +49,6 @@ namespace WebAppFinal.Controllers
             {
                 if(ModelState.IsValid)
                 {
-                  
                     if (await _courseServices.AddAsync(entity))
                     {
                         ViewBag.Alert = AlertsHelper.ShowAlert(Alerts.Success, "Create Ok!");

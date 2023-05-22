@@ -1,4 +1,5 @@
 ﻿@model IEnumerable<WebAppFinal.DTOs.Reponse.CourseDTO>
+@using Microsoft.AspNetCore.Mvc.TagHelpers
 
 @{
     ViewData["Title"] = "Index";
@@ -7,10 +8,10 @@
 <h1>List Cource</h1>
 
 <p>
-    <a class="btn-outline-primary btn-bm" asp-action="Create">Create New Course</a>
+    <a class="btn-outline-primary btn-sm" asp-action="Create">Create New Course</a>
 </p>
-<table id="myTable" class="table table-primary table-striped">
-    <thead>
+<table id="myTable" class="table table-info table-striped ">
+    <thead class="table-dark" style="color: white">
     <tr>
         <th>
             @Html.DisplayNameFor(model => model.ID)
@@ -45,18 +46,23 @@
                 @Html.DisplayFor(modelItem => item.Student)
             </td>
             <td>
-                <a class="btn-outline-success btn-bm" asp-controller="Enrollment" asp-action="AddNewStudent" asp-route-id="@item.ID">Add student</a> |
-                <a class="btn-outline-primary btn-bm" asp-action="Edit" asp-route-id="@item.ID">Edit</a> |
-                <a class="btn-outline-primary btn-bm" asp-action="Details" asp-route-id="@item.ID">Details</a> |
-                <a class="btn-outline-danger btn-bm" asp-action="Delete" asp-route-id="@item.ID">Delete</a>
+                <a class="btn-outline-success btn-sm" href="/Enrollment/AddNewStudent/@item.ID">Add student</a> |
+                <a class="btn-outline-primary btn-sm" asp-action="Edit" asp-route-id="@item.ID">Edit</a> |
+                <a class="btn-outline-primary btn-sm" asp-action="Details" asp-route-id="@item.ID">Details</a> |
+                <a class="btn-outline-danger btn-sm" asp-action="Delete" asp-route-id="@item.ID">Delete</a>
             </td>
         </tr>
     }
     </tbody>
 </table>
 
+<!-- Modal -->
+
+<!-- Modal -->
+
+
 @section Scripts{
-<script type="text/javascript">
+    <script type="text/javascript">
 
         $(document).ready(function () {
             $('#myTable').DataTable();

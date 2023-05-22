@@ -8,10 +8,13 @@ namespace WebAppFinal.BusinessLayer.Interface
     public interface IStudentService
     {
         Task<IEnumerable<StudentDTO>> GetListSortAsync(SortFilterPageOptions options);
-        Task<Student> GetByIdAsync(int? id);
+        Task<StudentDTO> GetByIdAsync(int? id);
         Task<IEnumerable<Student>> GetAllAsync();
+        List<Student> GetListAsync();
         Task<bool> AddAsync(Student entity);
         Task<bool> UpdateAsync(Student entity);
-        Task<bool> DeleteAsync(Student entity);
+        //Task<bool> DeleteAsync(Student entity);
+        Task<StudentDTO> FindByCode(string code);
+        Task<IEnumerable<StudentDTO>> Findddd(int id);
     }
 }

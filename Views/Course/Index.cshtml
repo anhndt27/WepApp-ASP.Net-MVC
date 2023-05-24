@@ -1,36 +1,44 @@
-﻿@model IEnumerable<WebAppFinal.DTOs.Reponse.CourseDTO>
+﻿@model ViewModel
+
 @using Microsoft.AspNetCore.Mvc.TagHelpers
+
 
 @{
     ViewData["Title"] = "Index";
 }
 
+@{
+    Html.RenderPartial("_modalPopup");
+}
+@*@Html.Partial("_modalPopup")*@
 <h1>List Cource</h1>
-
 <p>
     <a class="btn-outline-primary btn-sm" asp-action="Create">Create New Course</a>
 </p>
-<table id="myTable" class="table table-info table-striped ">
+<hr>
+
+
+<table id="myTable" class="table table-info table-striped">
     <thead class="table-dark" style="color: white">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.ID)
+            ID
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Title)
+            Title
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Credits)
+            Credits
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Student)
+            Student
         </th>
-
         <th></th>
     </tr>
+
     </thead>
     <tbody>
-    @foreach (var item in Model)
+    @foreach (var item in Model.model1)
     {
         <tr>
             <td>
@@ -49,16 +57,15 @@
                 <a class="btn-outline-success btn-sm" href="/Enrollment/AddNewStudent/@item.ID">Add student</a> |
                 <a class="btn-outline-primary btn-sm" asp-action="Edit" asp-route-id="@item.ID">Edit</a> |
                 <a class="btn-outline-primary btn-sm" asp-action="Details" asp-route-id="@item.ID">Details</a> |
-                <a class="btn-outline-danger btn-sm" asp-action="Delete" asp-route-id="@item.ID">Delete</a>
+                <a class="btn-outline-danger btn-sm" asp-action="Delete" asp-route-id="@item.ID">Delete</a>|
             </td>
         </tr>
     }
     </tbody>
 </table>
-
-<!-- Modal -->
-
-<!-- Modal -->
+<div class="row">
+    <a class="btn btn-primary btn-sm" data-mdb-toggle="modal" data-mdb-target="#exampleModal">Match Course & Student </a>
+</div>
 
 
 @section Scripts{
@@ -67,5 +74,5 @@
         $(document).ready(function () {
             $('#myTable').DataTable();
         });
-</script>
+    </script>
 }

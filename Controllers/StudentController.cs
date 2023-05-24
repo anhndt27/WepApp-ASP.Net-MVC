@@ -19,52 +19,47 @@ namespace WebAppFinal.Controllers
             _studentService = studentService;
             _mapper = mapper;
         }
-        //public IActionResult Index()
-        //{
-        //    return View();
-        //}
 
         [HttpGet("/Student/Index")]
-        public async Task<IActionResult> Index(SortFilterPageOptions options)
+        public async Task<IActionResult> Index(SortFilterPageOptions options, bool deleteFlag = false)
         {
+            if (deleteFlag) ViewBag.Alert = AlertsHelper.ShowAlert(Alerts.Success, message: "remove Student success");
             var res = await _studentService.GetListSortAsync(options);
             return View(res);
         }
 
         // GET: UserManagerController/Details/5
-        /*public async Task<ActionResult> Details(int id)
+        public async Task<ActionResult> Details(int id)
         {
             var UserProfile = await _studentService.GetByIdAsync(id);
             return View(UserProfile);
-        }*/
+        }
 
         // GET: UserManagerController/Create
 
         public ActionResult Create()
         {
-            return View(new Student());
+            return View(new StudentDTO());
         }
 
         // POST: UserManagerController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create(Student entity)
+        public async Task<IActionResult> Create(StudentDTO entity)
         {
             try
             {
-                if (ModelState.IsValid)
+                if (await _studentService.AddAsync(entity))
                 {
-                    if (await _studentService.AddAsync(entity))
-                    {
-                        ViewBag.Alert = AlertsHelper.ShowAlert(Alerts.Success, "Create Ok!");
-                    }
-                    else ViewBag.Alert = AlertsHelper.ShowAlert(Alerts.Danger, "Unknown error");
-                    //return RedirectToAction(nameof(Index));
+                    ViewBag.Alert = AlertsHelper.ShowAlert(Alerts.Success, "Create Ok!");
                 }
+                else ViewBag.Alert = AlertsHelper.ShowAlert(Alerts.Danger, "Unknown error");
+                //return RedirectToAction(nameof(Index));
             }
             catch
             {
-                return View();
+                ModelState.AddModelError("",
+                    "Unable to save changes. Try again, and if the problem persists see your system administrator.");
             }
 
             return View(entity);
@@ -80,57 +75,53 @@ namespace WebAppFinal.Controllers
         // POST: UserManagerController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit(Student entity)
+        public async Task<ActionResult> Edit(StudentDTO entity)
         {
             try
             {
-                if (ModelState.IsValid)
+                if (await _studentService.UpdateAsync(entity))
                 {
-                    if (await _studentService.UpdateAsync(entity))
-                    {
-                        ViewBag.Alert = AlertsHelper.ShowAlert(Alerts.Success, "Update Ok!");
-                    }
-                    else ViewBag.Alert = AlertsHelper.ShowAlert(Alerts.Danger, "Unknown error");
-                    //return RedirectToAction(nameof(Index));
+                    ViewBag.Alert = AlertsHelper.ShowAlert(Alerts.Success, "Update Ok!");
                 }
+                else ViewBag.Alert = AlertsHelper.ShowAlert(Alerts.Danger, "Unknown error");
+                //return RedirectToAction(nameof(Index));
             }
             catch
+
             {
                 ModelState.AddModelError("",
                     "Unable to save changes. Try again, and if the problem persists see your system administrator.");
             }
 
-            return View(entity);
+            return View();
         }
 
-        // GET: UserManagerController/Delete/5
+// GET: UserManagerController/Delete/5
         public async Task<ActionResult> Delete(int id)
         {
             var res = await _studentService.GetByIdAsync(id);
             return View(res);
         }
 
-        // POST: UserManagerController/Delete/5
+// POST: UserManagerController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Delete(int? id)
+        public async Task<ActionResult> Delete(StudentDTO entity)
         {
             try
             {
-                var res = await _studentService.GetByIdAsync(id);
-                //await _studentService.DeleteAsync(res);
-
-                return RedirectToAction(nameof(Index));
+                if (await _studentService.DeleteAsync(entity))
+                {
+                    return RedirectToAction(nameof(Index), new { deleteFlag = true });
+                }
+                else ViewBag.Alert = AlertsHelper.ShowAlert(Alerts.Danger, "Remove faile");
             }
             catch (InvalidDataException)
             {
                 return View();
             }
-        }
 
-        public IActionResult Details()
-        {
-            throw new NotImplementedException();
+            return View();
         }
     }
 }

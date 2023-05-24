@@ -9,11 +9,11 @@ namespace WebAppFinal.BusinessLayer.Interface
     {
         Task<IEnumerable<StudentDTO>> GetListSortAsync(SortFilterPageOptions options);
         Task<StudentDTO> GetByIdAsync(int? id);
-        Task<IEnumerable<Student>> GetAllAsync();
-        List<Student> GetListAsync();
-        Task<bool> AddAsync(Student entity);
-        Task<bool> UpdateAsync(Student entity);
-        //Task<bool> DeleteAsync(Student entity);
+        Task<bool> AddAsync(StudentDTO entity);
+
+        Task<bool> UpdateAsync(StudentDTO entity);
+
+        Task<bool> DeleteAsync(StudentDTO entity);
         Task<StudentDTO> FindByCode(string code);
         Task<IEnumerable<StudentDTO>> Findddd(int id);
     }

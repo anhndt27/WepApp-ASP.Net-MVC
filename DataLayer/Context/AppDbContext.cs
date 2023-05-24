@@ -34,7 +34,6 @@ namespace WebAppFinal.DataLayer.Context
         public DbSet<Student> Students { get; set; }
         public DbSet<Enrollment> Enrollments { get; set; }
         public DbSet<Course> Courses { get; set; }
-        public DbSet<WebAppFinal.BusinessLayer.DTOs.EnrollmentQueryDto.EnrollmentCreateDto>? EnrollmentCreateDto { get; set; }
-        public DbSet<WebAppFinal.BusinessLayer.DTOs.CourseQueryDto.CourseRequestDto>? CourseRequestDto { get; set; }
+       
     }
 }

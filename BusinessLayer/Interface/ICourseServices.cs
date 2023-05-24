@@ -9,11 +9,9 @@ namespace WebAppFinal.BusinessLayer.Interface
     {
         Task<IEnumerable<CourseDTO>> GetListCourseStudentAsync();
         Task<IEnumerable<CourseDTO>> GetByIdAsync(int? id);
-        Task<IEnumerable<CourseDTO>> GetAllAsync();
         Task<bool> AddAsync(CourseRequestDto entity);
         Task<bool> UpdateAsync(CourseRequestDto entity);
         Task<CourseRequestDto> FindById(int? id);
         Task<bool> DeleteAsync(CourseRequestDto entity);
-        Task<Course> GetFirstAsync(int id);
     }
 }

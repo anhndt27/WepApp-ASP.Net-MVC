@@ -5,60 +5,49 @@ using WebAppFinal.BusinessLayer.DTOs.Request;
 using WebAppFinal.BusinessLayer.Interface;
 using WebAppFinal.DataLayer.Context;
 using WebAppFinal.DataLayer.Entities;
-
 using WebAppFinal.DTOs.Reponse;
 
 namespace WebAppFinal.BusinessLayer.Implement
 {
     public class StudentService : IStudentService
     {
-        
         private readonly AppDbContext _context;
         public readonly IMapper _mapper;
 
-        public StudentService( AppDbContext context, IMapper mapper)
+        public StudentService(AppDbContext context, IMapper mapper)
         {
             _context = context;
             _mapper = mapper;
         }
 
-        public async Task<bool> AddAsync(Student entity)
+        public async Task<bool> AddAsync(StudentDTO entity)
         {
-            var res = await _context.AddAsync(entity);
-            if (res != null)
-            {
-                return true;
-            }
+            var students = _mapper.Map<Student>(entity);
+            var res = _context.Add(students);
+            await _context.SaveChangesAsync();
+            if (res != null) return true;
             return false;
         }
 
-        public Task<bool> DeleteAsync(Student entity)
+        public async Task<bool> DeleteAsync(StudentDTO entity)
         {
-            throw new NotImplementedException();
+            var students = _mapper.Map<Student>(entity);
+            var res = _context.Students.Remove(students);
+            await _context.SaveChangesAsync();
+            if (res != null) return true;
+            return false;
         }
 
         public async Task<StudentDTO> FindByCode(string code)
         {
-            var res =  _context.Students.FirstOrDefaultAsync(s => s.Code == "CT0201");
+            var res = _context.Students.FirstOrDefaultAsync(s => s.Code == "CT0201");
             return _mapper.Map<StudentDTO>(res);
         }
 
         public async Task<IEnumerable<StudentDTO>> Findddd(int id)
         {
-            var res =  _context.Students.AsNoTracking();
+            var res = _context.Students.AsNoTracking();
             return _mapper.Map<IEnumerable<StudentDTO>>(res.Where(s => s.ID == id));
-        }
-
-        public async Task<IEnumerable<Student>> GetAllAsync()
-        {
-           
-            return await _context.Students.ToListAsync();
-            
-        }
-
-        public List<Student> GetListAsync()
-        {
-            return _context.Students.ToList();
         }
 
         public async Task<IEnumerable<StudentDTO>> GetListSortAsync(SortFilterPageOptions options)
@@ -68,19 +57,22 @@ namespace WebAppFinal.BusinessLayer.Implement
             return listStudent.ToList();
         }
 
-        public Task<IEnumerable<StudentDTO>> GetAllStudent()
+        public async Task<StudentDTO> GetByIdAsync(int? id)
         {
-            throw new NotImplementedException();
+            var res = await _context.Students.FindAsync(id);
+            return _mapper.Map<StudentDTO>(res);
         }
 
-        public Task<StudentDTO> GetByIdAsync(int? id)
+        public async Task<bool> UpdateAsync(StudentDTO entity)
         {
-            throw new NotImplementedException();
-        }
-
-        public Task<bool> UpdateAsync(Student entity)
-        {
-            throw new NotImplementedException();
+            var students = _mapper.Map<Student>(entity);
+            var res = _context.Students.Update(students);
+            await _context.SaveChangesAsync();
+            if (res != null) return true;
+            else
+            {
+                return false;
+            }
         }
     }
 }

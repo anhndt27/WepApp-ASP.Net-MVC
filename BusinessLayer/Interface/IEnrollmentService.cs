@@ -7,8 +7,6 @@ namespace WebAppFinal.BusinessLayer.Interface
     {
         Task<bool> AddStudentToCourse(int? CouresID, int? StudentID);
         
-        //Task<IEnumerable<Enrollment>> GetAllAsync();
-        //Task<bool> AddAsync(Enrollment entity);
-        //Task<bool> DeleteAsync(Enrollment entity);
+      
     }
 }

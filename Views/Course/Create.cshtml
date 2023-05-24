@@ -16,7 +16,7 @@
         </div>
     </div>
 </div>
-<div class="row">
+<div class="row shadow-inner">
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -35,11 +35,12 @@
             </div>
         </form>
     </div>
+    <div class="neo-left">
+        <a class="btn-outline-primary btn-sm" asp-action="Index">Back to List</a>
+    </div>
 </div>
 
-<div>
-    <a class="btn-outline-primary btn-sm" asp-action="Index">Back to List</a>
-</div>
+
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

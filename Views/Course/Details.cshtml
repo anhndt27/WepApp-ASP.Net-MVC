@@ -12,7 +12,7 @@
     <hr/>
     @foreach (var item in Model)
     {
-        <dl class="row">
+        <dl class="row shadow-inner">
             <dt class="col-sm-2">
                 @Html.DisplayNameFor(model => model.Title)
             </dt>
@@ -32,7 +32,7 @@
                 @Html.DisplayFor(modelItem => item.Student)
             </dd>
         </dl>
-        <div>
+        <div class="neo-left">
             <a class="btn-outline-primary btn-sm" asp-action="Edit" asp-route-id="@item?.ID">Edit</a> |
             <a class="btn-outline-primary btn-sm" asp-action="Index">Back to List</a>
         </div>

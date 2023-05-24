@@ -5,8 +5,10 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using WebAppFinal.BusinessLayer.Interface;
+using WebAppFinal.DataLayer.Entities;
 using WebAppFinal.DTOs.Reponse;
 using WebAppFinal.Helpers;
+using WebAppFinal.Models;
 
 namespace WebAppFinal.Controllers
 {
@@ -40,22 +42,42 @@ namespace WebAppFinal.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> AddNewStudent([FromRoute] int id, int studentID)
         {
-            //var res = _studentService.Findddd(code).Id;
             try
             {
-                var res = await _enrollmentService.AddStudentToCourse(id, studentID);
-                if (res)
+                if (await _enrollmentService.AddStudentToCourse(id, studentID))
                 {
-                    ViewBag.Alerts = AlertsHelper.ShowAlert(Alerts.Success, message: "Ok bro");
+                    ViewBag.Alert = AlertsHelper.ShowAlert(Alerts.Success, "Add new student to course!");
                 }
-                else ViewBag.Alerts = AlertsHelper.ShowAlert(Alerts.Danger, message: "miss add student to course");
+                else ViewBag.Alert = AlertsHelper.ShowAlert(Alerts.Danger, "Unknown error");
             }
             catch
             {
                 ModelState.AddModelError("", "Unable to save changes. Try again.");
+                //ViewBag.Alerts = AlertsHelper.ShowAlert(Alerts.Danger, message: "lane Catch fix bug now");
             }
 
             return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AddUseModal(ViewModel model)
+        {
+            try
+            {
+                if (await _enrollmentService.AddStudentToCourse(model.model2.CourseId, model.model2.StudentId))
+                {
+                    //ViewBag.Alert = AlertsHelper.ShowAlert(Alerts.Success, "Add new student to course!");
+                }
+                //else ViewBag.Alert = AlertsHelper.ShowAlert(Alerts.Danger, "Unknown error");
+            }
+            catch
+            {
+                ModelState.AddModelError("", "Unable to save changes. Try again.");
+                //ViewBag.Alerts = AlertsHelper.ShowAlert(Alerts.Danger, message: "lane Catch fix bug now");
+            }
+
+            return RedirectToAction("Index", "Course");
         }
     }
 }

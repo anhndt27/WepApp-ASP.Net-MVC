@@ -12,7 +12,7 @@ namespace WebAppFinal.BusinessLayer.Implement
         public readonly IMapper _mapper;
         public readonly IStudentService _StudentService;
 
-        public EnrollmentService(AppDbContext context, IMapper mapper,IStudentService studentService)
+        public EnrollmentService(AppDbContext context, IMapper mapper, IStudentService studentService)
         {
             _context = context;
             _mapper = mapper;
@@ -33,13 +33,10 @@ namespace WebAppFinal.BusinessLayer.Implement
                 StudentID = (int)StudentID,
                 CourseID = (int)CouresID
             };
-            var res = await _context.Enrollments.AddAsync(entity);
+            var res = _context.Enrollments.Add(entity);
             await _context.SaveChangesAsync();
-            if (res != null)
-            {
-                return true;
-            }
-            return false;
+            if (res != null) return true;
+            else return false;
         }
     }
 }
